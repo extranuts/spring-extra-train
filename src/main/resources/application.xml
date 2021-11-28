@@ -10,17 +10,18 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:application.properties"/>
 
-<!--    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
+    <bean class="com.comp.spring.bpp.InjectBeanPostProcessor"/>
+    <bean class="com.comp.spring.bpp.TransactionBeanPostProcessor"/>
+    <bean class="com.comp.spring.bpp.AuditingBeanPostProcessor"/>
+    <!--    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
 
-<!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
-<!--        <property name="locations" value="classpath:application.properties"/>-->
-<!--    </bean>-->
+    <!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+    <!--        <property name="locations" value="classpath:application.properties"/>-->
+    <!--    </bean>-->
 
-<!--    ${} Expression Language-->
-
+    <!--    ${} -->
     <bean class="com.comp.spring.bfpp.LogBeanFactoryPostProcessor"/>
     <bean class="com.comp.spring.bfpp.VerifiPropertyBeanFactoryPostProcessor"/>
-
 
     <bean id="driver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="${db.driver}"/>
@@ -28,31 +29,32 @@
 
     <bean id="pool1" name="p1,p2,p3" class="com.comp.spring.database.pool.ConnectionPool">
         <constructor-arg name="username" type="java.lang.String" value="${db.username}"/>
-        <constructor-arg name="poolSize" type="java.lang.Integer"  value="${db.pool.size}"/>
-        <constructor-arg name="args" type="java.util.List" index="2">
+        <constructor-arg name="properties" type="java.util.Map">
+            <null/>
+        </constructor-arg>
+        <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
+        <constructor-arg name="args" type="java.util.List">
             <list>
                 <value>--arg1=value1</value>
                 <value>--arg2=value2</value>
                 <ref bean="driver"/>
             </list>
         </constructor-arg>
-        <!-- #{} SPel-->
-        <constructor-arg name="properties" type="java.util.Map" index="3">
-            <null/>
-        </constructor-arg>
+        <!--      #{}  -->
         <property name="properties">
             <map>
                 <entry key="url" value="postgresurl"/>
-                <entry key="password" value="postgrespassword"/>
-                <entry key="driver" value-ref="#{driver.substring(3)}"/>
-                <entry key="test" value="#{driver.length()>10}"/>
-                <entry key="test1" value="#{driver.length()> T(Math).random()*10}"/>
+                <entry key="password" value="123"/>
+                <entry key="driver" value="#{driver.substring(3)}"/>
+                <entry key="test" value="#{driver.length() > 10}"/>
+                <entry key="test1" value="#{driver.length() > T(Math).random() * 10}"/>
                 <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
                 <entry key="currentUser" value="#{systemProperties['user.name']}"/>
+                <entry key="currentUser" value="${user.name}"/>
             </map>
         </property>
     </bean>
-    <bean id="companyRepository" class="com.comp.spring.database.repository.CompanyRepository" factory-method="of">
-        <constructor-arg ref="pool1"/>
-    </bean>
+
+    <bean id="companyRepository" class="com.comp.spring.database.repository.CompanyRepository"/>
+
 </beans>
