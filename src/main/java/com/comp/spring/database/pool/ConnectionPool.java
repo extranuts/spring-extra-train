@@ -9,17 +9,15 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component("pool1")
-public class ConnectionPool  {
+public class ConnectionPool {
 
     private final String username;
     private final Integer poolSize;
 
-    @Autowired
     public ConnectionPool(@Value("${db.username}") String username,
-                          @Value("{db.pool.size}") Integer poolSize) {
+                          @Value("${db.pool.size}") Integer poolSize) {
         this.username = username;
         this.poolSize = poolSize;
-
     }
 
     @PostConstruct
@@ -27,9 +25,8 @@ public class ConnectionPool  {
         System.out.println("Init connection pool");
     }
 
-
     @PreDestroy
     private void destroy() {
-        System.out.println("Clean connection Pool");
+        System.out.println("Clean connection pool");
     }
 }

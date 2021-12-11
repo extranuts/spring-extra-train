@@ -7,10 +7,11 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VerifiPropertyBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
+public class VerifyPropertyBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
+
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        System.out.println("");
+        System.out.println();
     }
 
     @Override

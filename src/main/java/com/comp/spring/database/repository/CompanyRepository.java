@@ -23,7 +23,7 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
 
     public CompanyRepository(ConnectionPool pool1,
                              List<ConnectionPool> pools,
-                             @Value("${db.pool.size}")Integer poolSize) {
+                             @Value("${db.pool.size}") Integer poolSize) {
         this.pool1 = pool1;
         this.pools = pools;
         this.poolSize = poolSize;
@@ -36,12 +36,12 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
 
     @Override
     public Optional<Company> findById(Integer id) {
-        System.out.println("findByID method ....");
+        System.out.println("findById method...");
         return Optional.of(new Company(id));
     }
 
     @Override
     public void delete(Company entity) {
-        System.out.println("Delete method .........");
+        System.out.println("delete method...");
     }
 }
